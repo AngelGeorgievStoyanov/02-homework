@@ -1,15 +1,22 @@
+import { getAllFavorites } from '../services/jsonService.js';
 import { elem } from './createElem.js'
 
 const query = document.getElementById('search');
 
 
-export function home(arrBook, div) {
+export async function home(arrBook, div) {
+
+    const idBooki = await getAllFavorites()
+    console.log(idBooki)
+
     query.value = '';
     arrBook.forEach(e => {
         let idBook = e.id;
 
-        //  const hasFavorit = bookFavId.some((x) => x == idBook)
 
+        const hasFavorit = idBooki.some((x) => x.id == idBook)
+
+console.log(hasFavorit)
 
         let section = elem('section', false, false, false, false, false, idBook);
 
@@ -27,21 +34,24 @@ export function home(arrBook, div) {
         }
         let src = e.volumeInfo.imageLinks.smallThumbnail;
         let img = elem('img', false, false, 128, 158, src);
-
+        let buttonFavorits = elem('button', 'btnFav', 'Favorits', false, false, false);
+        let buttonRemove = elem('button', 'btnRmv','Remove' , false, false, false);
         let buttonDtls = elem('button', 'btnDtls', 'Details', false, false, false);
-        //  let buttonFavorits
-        // if (hasFavorit) {
-        //      buttonFavorits = elem('button', 'btnRmv', 'Remove', false, false, false);
-        //  } else {
-        //      buttonFavorits = elem('button', 'btnFav', 'Favorits', false, false, false);
-        // }
+
+        
+
 
 
 
         section.appendChild(h3);
         section.appendChild(img);
-        section.appendChild(buttonDtls);
-        //  section.appendChild(buttonFavorits);
+        if (hasFavorit) {
+            section.appendChild(buttonRemove);
+        } else {
+            section.appendChild(buttonFavorits);
+            
+        }
+        section.appendChild(buttonDtls) 
 
         div.appendChild(section);
 
