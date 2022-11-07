@@ -29,7 +29,7 @@
 }
 
 
-section {
+section.home-section {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -47,11 +47,12 @@ section {
 
 .btnDtls,
 .btnSearch,
-.btnBack,
 .btnDtls,
 .btnMyFav,
 .btnRmv,
-.btnFav {
+.btnFav,
+.btnCmnt
+ {
     background-color: #9b9595;
     color: white;
     width: 95px;
@@ -60,6 +61,18 @@ section {
     border-radius: 6px;
     cursor: pointer;
 
+}
+
+.btnBackToHome,
+.btnBackToFav,
+.btnComent {
+    background-color: #9b9595;
+    color: white;
+    width: 160px;
+    height: 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 

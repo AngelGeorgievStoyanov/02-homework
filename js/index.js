@@ -20,7 +20,7 @@ import { getAllBoks, getBookById } from '../services/bookService.js'
 import { clearDiv } from './clearDiv.js';
 import { detailsPage } from './detailsBook.js';
 import { home } from './home.js';
-import { addToFavorites, getAllFavorites } from '../services/jsonService.js'
+import { addToFavorites, getAllFavorites, deleteFavoritesId } from '../services/jsonService.js'
 import { favorites } from './myFavorites.js';
 
 
@@ -55,9 +55,9 @@ async function checkEventTarget(e) {
 
         const book = await getBookById(id)
 
-        detailsPage(book, div)
+        detailsPage(book, div, false)
 
-    } else if (e.target.className == 'btnBack') {
+    } else if (e.target.className == 'btnBackToHome') {
         clearDiv(divCildren)
         home(arr, div);
 
@@ -76,6 +76,40 @@ async function checkEventTarget(e) {
         e.target.textContent = 'Remove';
         e.target.className = 'btnRmv';
 
+    } else if (e.target.className == 'btnBackToFav') {
+        clearDiv(divCildren)
+        myFavorites(e);
+
+    } else if (e.target.className == 'btnRmv') {
+
+        await deleteFavoritesId(id);
+
+        const books = await getAllFavorites();
+
+        books.length <= 1 ? btnMyFav.style.display = 'none' : btnMyFav.style.display = 'block';
+        e.target.textContent = 'Favorits';
+        e.target.className = 'btnFav';
+
+    } else if (e.target.className == 'btnCmnt') {
+
+        const form = e.target.parentNode.parentNode.childNodes[6].childNodes[0]
+        form.style.display = 'block'
+    } else if (e.target.className == 'btnComent') {
+
+        const form = e.target.parentNode
+
+        const title = form.childNodes[1].value.trim()
+        title.length > 40 ? title.substring(0, 40) : title;
+
+        const descr = form.childNodes[3].value.trim()
+        descr.length > 256 ? descr.substring(0, 256) : descr;
+        console.log(title, '---', descr)
+        const bookId=id;
+        console.log(bookId)
+
+        if(title!='' && descr!=''){
+
+        }
     }
 
 }
@@ -86,7 +120,6 @@ async function myFavorites(e) {
 
     const booksFav = await getAllFavorites()
 
-    console.log(11111, booksFav)
     let arrFavorites = []
 
     if (divCildren.length > 0 && divCildren != undefined) {
@@ -102,10 +135,6 @@ async function myFavorites(e) {
     const arrf = await Promise.all(arrFavorites).then((values) => {
         return values;
     });
-
-
-    console.log(arrf.slice(1), 22222222222)
-
 
 
 

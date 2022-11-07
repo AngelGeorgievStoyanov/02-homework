@@ -1,4 +1,4 @@
-export function elem(a, b, c, d, e, f, z) {
+export  function elem(a, b, c, d, e, f, z) {
     let element = document.createElement(a);
     if (b) {
         element.className = b;
@@ -19,5 +19,5 @@ export function elem(a, b, c, d, e, f, z) {
         element.id = z;
     }
 
-    return element;
+    return  element;
 }
