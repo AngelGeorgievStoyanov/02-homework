@@ -6,7 +6,7 @@ export async function addToFavorites(id, title, author) {
         headers: {
             "content-type": "application/json"
         },
-        body: JSON.stringify({ id, title, author })
+        body: JSON.stringify({ id, title, author ,"comments":[]})
     });
 
     let result = await response.json()
@@ -34,17 +34,27 @@ export async function deleteFavoritesId(id){
 }
 
 
-export async function createComment(id,comment,postId){
-    let response = await fetch(`${apiJson}/comments`, {
-        method: 'POST',
+export async function createComment(id,body){
+    let post = await fetch(`${apiJson}/posts/${id}`, {
+        method: 'PUT',
         headers: {
             "content-type": "application/json"
         },
-        body: JSON.stringify({ id, comment, postId })
+        body: JSON.stringify(body)
     });
 
-    let result = await response.json()
+    let result = await post.json()
     return result;
 
 }
 
+export async function getPostById(id){
+    let response = await fetch(`${apiJson}/posts/${id}`)
+
+    let result = await response.json()
+    return result;
+}
+
+export async function getAllComments(id,query){
+
+}

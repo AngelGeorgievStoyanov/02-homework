@@ -20,7 +20,7 @@ import { getAllBoks, getBookById } from '../services/bookService.js'
 import { clearDiv } from './clearDiv.js';
 import { detailsPage } from './detailsBook.js';
 import { home } from './home.js';
-import { addToFavorites, getAllFavorites, deleteFavoritesId } from '../services/jsonService.js'
+import { addToFavorites, getAllFavorites, deleteFavoritesId, getPostById, createComment } from '../services/jsonService.js'
 import { favorites } from './myFavorites.js';
 
 
@@ -54,8 +54,9 @@ async function checkEventTarget(e) {
         }
 
         const book = await getBookById(id)
-
-        detailsPage(book, div, false)
+        const postComm = await getPostById(id)
+    
+        detailsPage(book, div, postComm.comments)
 
     } else if (e.target.className == 'btnBackToHome') {
         clearDiv(divCildren)
@@ -93,9 +94,12 @@ async function checkEventTarget(e) {
     } else if (e.target.className == 'btnCmnt') {
 
         const form = e.target.parentNode.parentNode.childNodes[6].childNodes[0]
-        form.style.display = 'block'
+        form.style.display = ''
     } else if (e.target.className == 'btnComent') {
 
+        const id = e.currentTarget.children[0].id
+        const book = await getBookById(id)
+        const postFavorits = await getPostById(id)
         const form = e.target.parentNode
 
         const title = form.childNodes[1].value.trim()
@@ -103,11 +107,36 @@ async function checkEventTarget(e) {
 
         const descr = form.childNodes[3].value.trim()
         descr.length > 256 ? descr.substring(0, 256) : descr;
-        console.log(title, '---', descr)
-        const bookId=id;
-        console.log(bookId)
 
-        if(title!='' && descr!=''){
+        const timeCreated = new Date().toJSON().split('.')[0];
+
+        if (title != '' && descr != '') {
+            const post = await getPostById(id)
+            const idComment = Math.random().toString(16).slice(2)
+            const comment = {
+                "id": idComment,
+                "title": title,
+                "description": descr,
+                "timeCreated": timeCreated
+
+            }
+
+
+
+
+
+            postFavorits.comments.push(comment)
+
+
+            let comments = await createComment(id, postFavorits)
+
+            form.style.display = 'none'
+
+            if (divCildren.length > 0) {
+                clearDiv(divCildren)
+            }
+
+            detailsPage(book, div, comments.comments)
 
         }
     }

@@ -3,7 +3,8 @@ import { elem } from "./createElem.js";
 
 export async function addCommentForm() {
 
-    let form = document.createElement('form', 'form-addcomment')
+    let form = elem('form', 'form-addcomment')
+   
     form.style.display = 'none';
     let h3 = elem('h3', '', 'Comment title')
     let inpTitle = elem('input', 'form-comment-input-title')

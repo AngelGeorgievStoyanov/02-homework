@@ -1,9 +1,10 @@
 import { getAllFavorites } from '../services/jsonService.js';
 import { addCommentForm } from './addComments.js';
+import { card } from './commentCard.js';
 import { elem } from './createElem.js'
 
 
-export async function detailsPage(bookObj, div, addCmt) {
+export async function detailsPage(bookObj, div, cmts) {
 
 
     let idBook = bookObj.id;
@@ -60,15 +61,28 @@ export async function detailsPage(bookObj, div, addCmt) {
 
 
     article.appendChild(section);
-    
-    
-    let divForm = elem('div')
-  
-    
-    
+
+
+    let divForm = elem('div','div-form')
+
+
+
     const form = await addCommentForm()
-    
+
     divForm.append(form)
     article.appendChild(divForm);
+    
+    if (cmts.length > 0) {
+        
+        
+        cmts.forEach( comment => {
+          let  annotation = card(comment)
+            
+            console.log(annotation)
+            
+            article.append(annotation)
+        });
+        
+    }
     div.appendChild(article);
 }
