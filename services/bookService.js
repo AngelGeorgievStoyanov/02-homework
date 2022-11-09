@@ -4,17 +4,17 @@ const max = '&maxResults=40';
 const urlBook = 'https://www.googleapis.com/books/v1/volumes/';
 
 export async function getAllBoks(query) {
-    const currentUrl = URL_API_BOOKS + query + max
+    const currentUrl = URL_API_BOOKS + query + max;
 
-    const data = await fetch(currentUrl)
-    return await data.json()
+    const data = await fetch(currentUrl);
+    return await data.json();
 
 }
 
 
 export async function getBookById( id) {
 
-    const book = await fetch(urlBook + id)
+    const book = await fetch(urlBook + id);
 
-    return book.json()
+    return book.json();
 }

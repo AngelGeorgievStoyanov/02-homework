@@ -6,7 +6,7 @@ const query = document.getElementById('search');
 
 export async function home(arrBook, div) {
 
-    const idBooki = await getAllFavorites()
+    const idBooki = await getAllFavorites();
 
     if (idBooki.length > 1) {
         const btnMyFav = document.getElementById('myFav');
@@ -41,10 +41,6 @@ export async function home(arrBook, div) {
         let buttonDtls = elem('button', 'btnDtls', 'Details', false, false, false);
 
 
-
-
-
-
         section.appendChild( h3);
         section.appendChild(img);
         if (hasFavorit) {
@@ -53,7 +49,7 @@ export async function home(arrBook, div) {
             section.appendChild(buttonFavorits);
 
         }
-        section.appendChild(buttonDtls)
+        section.appendChild(buttonDtls);
 
         div.appendChild(section);
 

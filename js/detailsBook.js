@@ -6,7 +6,6 @@ import { elem } from './createElem.js'
 
 export async function detailsPage(bookObj, div, cmts) {
 
-
     let idBook = bookObj.id;
 
     let article = elem('article', false, false, false, false, false, idBook);
@@ -18,13 +17,11 @@ export async function detailsPage(bookObj, div, cmts) {
     h2.textContent = bookObj.volumeInfo.authors != undefined ? 'Authors of the Book  ---  ' + bookObj.volumeInfo.authors.join('  and  ') : 'There is no author for this book in DB';
 
     let h3 = elem('h3');
-    let date = bookObj.volumeInfo.publishedDate
+    let date = bookObj.volumeInfo.publishedDate;
     if (date != undefined) {
-
         date = 'Published date  ---  ' + date.split('-').reverse().join('/');
 
     } else {
-
         date = 'No info for published date';
     }
 
@@ -40,7 +37,7 @@ export async function detailsPage(bookObj, div, cmts) {
     let btnBackFav = elem('button', 'btnBackToFav', 'BACK TO FAVORITES');
     let btnComment = elem('button', 'btnCmnt', 'Add coment')
 
-    const hasFav = await getAllFavorites()
+    const hasFav = await getAllFavorites();
     const hasFavorit = hasFav.filter((x) => x.id == idBook);
 
     article.appendChild(h1);

@@ -1,4 +1,4 @@
-const apiJson = 'http://localhost:3000'
+const apiJson = 'http://localhost:3000';
 
 export async function addToFavorites(id, title, author) {
     let response = await fetch(`${apiJson}/posts`, {
@@ -9,7 +9,7 @@ export async function addToFavorites(id, title, author) {
         body: JSON.stringify({ id, title, author ,"comments":[]})
     });
 
-    let result = await response.json()
+    let result = await response.json();
     return result;
 
 }
@@ -17,8 +17,8 @@ export async function addToFavorites(id, title, author) {
 
 export async function getAllFavorites() {
 
-    const data = await fetch(`${apiJson}/posts`)
-    return data.json()
+    const data = await fetch(`${apiJson}/posts`);
+    return data.json();
 }
 
 
@@ -43,7 +43,7 @@ export async function createComment(id,body){
         body: JSON.stringify(body)
     });
 
-    let result = await post.json()
+    let result = await post.json();
     return result;
 
 }
@@ -51,7 +51,7 @@ export async function createComment(id,body){
 export async function getPostById(id){
     let response = await fetch(`${apiJson}/posts/${id}`)
 
-    let result = await response.json()
+    let result = await response.json();
     return result;
 }
 
