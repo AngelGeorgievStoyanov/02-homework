@@ -252,7 +252,9 @@ async function myFavorites(e) {
     const arrf = await Promise.all(arrFavorites).then((values) => {
         return values;
     });
+   
 
+    // TODO: When the default post in JSON Server is not deleted, I use slice(1)
     home(arrf.slice(1), div);
 
 }
