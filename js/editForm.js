@@ -1,20 +1,22 @@
-import { elem } from "./createElem.js";
+import {elem} from './createElem.js';
 
 
-export async function addCommentForm() {
+export async function editForm(comment) {
 
-    let form = elem('form', 'form-addcomment')
+
+    let form = elem('form', 'form-edit')
    
-    form.style.display = 'none';
-    let h3 = elem('h3', '', 'Comment title')
+      let h3 = elem('h3', '', 'Comment title')
     let inpTitle = elem('input', 'form-comment-input-title')
     inpTitle.setAttribute('maxlength', 40)
+    inpTitle.value=comment[0].title
     let h3desc = elem('h3', '', 'Description')
     let txtArea = elem('textarea', 'form-comment-txtarea-title')
     txtArea.setAttribute('rows', 8)
     txtArea.setAttribute('cols',40)
     txtArea.setAttribute('maxlength', 256)
-    let btnForm = elem('button','btnComent','Create comment')
+    txtArea.value=comment[0].description
+    let btnForm = elem('button','editingComment','Edit comment')
     form.append(h3)
     form.append(inpTitle)
     form.append(h3desc)
@@ -26,4 +28,3 @@ export async function addCommentForm() {
     return form
 
 }
-

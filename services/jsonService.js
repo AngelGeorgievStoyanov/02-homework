@@ -55,6 +55,16 @@ export async function getPostById(id){
     return result;
 }
 
-export async function getAllComments(id,query){
+export async function editAndDeleteComment(id,body){
+    let post = await fetch(`${apiJson}/posts/${id}`, {
+        method: 'PUT',
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(body)
+    });
+
+    let result = await post.json()
+    return result;
 
 }

@@ -63,7 +63,7 @@ export async function detailsPage(bookObj, div, cmts) {
     article.appendChild(section);
 
 
-    let divForm = elem('div','div-form')
+    let divForm = elem('div', 'div-form')
 
 
 
@@ -71,18 +71,16 @@ export async function detailsPage(bookObj, div, cmts) {
 
     divForm.append(form)
     article.appendChild(divForm);
-    
-    if (cmts.length > 0) {
-        
-        
-        cmts.forEach( comment => {
-          let  annotation = card(comment)
-            
-            console.log(annotation)
-            
+
+    if (cmts != undefined && cmts.length > 0) {
+
+
+        cmts.forEach(comment => {
+            let annotation = card(comment)
+
             article.append(annotation)
         });
-        
+
     }
     div.appendChild(article);
 }

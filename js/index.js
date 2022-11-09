@@ -20,13 +20,22 @@ import { getAllBoks, getBookById } from '../services/bookService.js'
 import { clearDiv } from './clearDiv.js';
 import { detailsPage } from './detailsBook.js';
 import { home } from './home.js';
-import { addToFavorites, getAllFavorites, deleteFavoritesId, getPostById, createComment } from '../services/jsonService.js'
+import { addToFavorites, getAllFavorites, deleteFavoritesId, getPostById, createComment, editAndDeleteComment } from '../services/jsonService.js'
 import { favorites } from './myFavorites.js';
+import { editForm } from './editForm.js';
 
+const idBooki = await getAllFavorites()
+console.log(idBooki)
+    if (idBooki.length > 1) {
+        const btnMyFav = document.getElementById('myFav');
+        btnMyFav.style.display = 'block';
 
+    }
 
 async function init(data, e) {
     e.preventDefault();
+
+  
 
     if (divCildren.length > 0) {
         clearDiv(divCildren)
@@ -55,7 +64,7 @@ async function checkEventTarget(e) {
 
         const book = await getBookById(id)
         const postComm = await getPostById(id)
-    
+
         detailsPage(book, div, postComm.comments)
 
     } else if (e.target.className == 'btnBackToHome') {
@@ -109,6 +118,10 @@ async function checkEventTarget(e) {
         descr.length > 256 ? descr.substring(0, 256) : descr;
 
         const timeCreated = new Date().toJSON().split('.')[0];
+        let [timeData, timeH] = timeCreated.split('T')
+        timeData = timeData.split('-').reverse().join('-')
+        const currentDataCreated = timeH + '/' + timeData
+    
 
         if (title != '' && descr != '') {
             const post = await getPostById(id)
@@ -117,7 +130,8 @@ async function checkEventTarget(e) {
                 "id": idComment,
                 "title": title,
                 "description": descr,
-                "timeCreated": timeCreated
+                "timeCreated": currentDataCreated,
+                "timeEdited": false
 
             }
 
@@ -139,7 +153,86 @@ async function checkEventTarget(e) {
             detailsPage(book, div, comments.comments)
 
         }
+    } else if (e.target.className == 'delComment' || e.target.className == 'editComment') {
+
+        const idCmt = e.target.parentNode.parentNode.id
+        const id = e.currentTarget.children[0].id
+        const book = await getBookById(id)
+        const postFavorits = await getPostById(id)
+        if (e.target.className == 'delComment') {
+            const arr = postFavorits.comments.filter((x) => x.id != idCmt)
+
+            postFavorits.comments = arr
+            let comments = await editAndDeleteComment(id, postFavorits)
+
+            if (divCildren.length > 0) {
+                clearDiv(divCildren)
+            }
+
+            detailsPage(book, div, comments.comments)
+
+
+        }
+        if (e.target.className == 'editComment') {
+            const comment = postFavorits.comments.filter((x) => x.id == idCmt)
+            const divCard = e.target.parentNode.parentNode
+            let form = await editForm(comment)
+
+            clearDiv(divCard.childNodes)
+            divCard.appendChild(form)
+        }
+
+
+
+
+
+
+    } else if (e.target.className == 'editingComment') {
+        const id = e.currentTarget.children[0].id
+        const book = await getBookById(id)
+        const postFavorits = await getPostById(id)
+        const form = e.target.parentNode
+
+        const title = form.childNodes[1].value.trim()
+        title.length > 40 ? title.substring(0, 40) : title;
+
+        const descr = form.childNodes[3].value.trim()
+        descr.length > 256 ? descr.substring(0, 256) : descr;
+
+        const timeCreated = new Date().toJSON().split('.')[0];
+        let [timeData, timeH] = timeCreated.split('T')
+        timeData = timeData.split('-').reverse().join('-')
+        const currentDataCreatedEdited = timeH + '/' + timeData
+        if (title != '' && descr != '') {
+            const post = await getPostById(id)
+            const idComment = form.parentNode.id
+
+            const comment = {
+                "id": idComment,
+                "title": title,
+                "description": descr,
+                "timeCreated": postFavorits.comments[0].timeCreated,
+                "timeEdited": currentDataCreatedEdited
+
+            }
+            let arr = postFavorits.comments.filter((x) => x.id != idComment)
+            postFavorits.comments = arr
+            arr.push(comment)
+            let comments = await editAndDeleteComment(id, postFavorits)
+
+            if (divCildren.length > 0) {
+                clearDiv(divCildren)
+            }
+
+            detailsPage(book, div, comments.comments)
+
+        }
+
+
+
+
     }
+
 
 }
 
