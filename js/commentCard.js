@@ -3,7 +3,7 @@ import { elem } from "./createElem.js";
 
 export function card(cmt) {
     let divCard = elem('div', 'cardComent', false, false, false, false, cmt.id);
-    let h2 = elem('h2', false, 'Titel ot the comment');
+    let h2 = elem('h2', false, 'Title ot the comment');
     let h3 = elem('h3', false, 'Description');
     let h4 = elem('h4', false, cmt.title);
     let p = elem('p', false, cmt.description);
